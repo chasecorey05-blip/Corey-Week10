@@ -26,7 +26,7 @@ osc1.frequency.value = 88;
 osc1.type = "triangle";
 
 const osc1Gain = new GainNode(ctx);
-osc1Gain.gain.value = 1;
+osc1Gain.gain.value = 0.1;
 
 osc1.connect(osc1Gain);
 osc1Gain.connect(ctx.destination);
