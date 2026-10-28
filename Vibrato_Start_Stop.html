@@ -13,36 +13,50 @@
 
 const ctx = new AudioContext();
 
-let osc1, VibMod
+let osc1, VibMod, ModGainMod;
 
-document.queryselector("#Start1").onclick = () =>
+document.querySelector("#Start1").onclick = () =>
 
 {
 
 
 
 osc1 = new OscillatorNode(ctx);
-osc1.frequency.value = 110;
-oscillator.type = "sawtooth";
+osc1.frequency.value = 88;
+osc1.type = "triangle";
 
 const osc1Gain = new GainNode(ctx);
-osc1Gain.gain.value = 0.1;
+osc1Gain.gain.value = 1;
 
 osc1.connect(osc1Gain);
 osc1Gain.connect(ctx.destination);
 
 VibMod = new OscillatorNode(ctx);
-VibMod.frequency.value = 2;
+VibMod.type = "sine";
+VibMod.frequency.value = 200;
 
-const VibMobGain = new GainNode(ctx);
-VibModGain.gain.value = 200; // right now, the oscillator will "wobble" by 100 Hz
+ModGainMod = new OscillatorNode(ctx);
+ModGainMod.type = "sawtooth";
+ModGainMod.frequency.value = 0.25;
+
+const ModGainModGain = new GainNode(ctx);
+ModGainModGain.gain.value = 400;
+
+
+const VibModGain = new GainNode(ctx);
+VibModGain.gain.value = 400; // right now, the oscillator will "wobble" by 100 Hz
 
 
 VibMod.connect(VibModGain);
 VibModGain.connect(osc1.frequency); // try switching to oscillator.detune
 
+ModGainMod.connect(ModGainModGain);
+ModGainModGain.connect(VibModGain.gain);
+
+
 osc1.start();
 VibMod.start();
+ModGainMod.start();
 
 }
 
@@ -52,6 +66,7 @@ document.querySelector("#Stop1").onclick = () =>
 
 osc1.stop();
 VibMod.stop();
+ModGainMod.stop();
 
 }
 
